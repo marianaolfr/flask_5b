@@ -63,6 +63,7 @@ def internal_server_error(e):
 
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
     if form.validate_on_submit():
@@ -76,6 +77,10 @@ def index():
             session['known'] = True
         session['name'] = form.name.data
         return redirect(url_for('index'))
+
+    # Retrieve users from the database
     users = User.query.all()
+
+    # Pass the users list to the template
     return render_template('index.html', form=form, name=session.get('name'),
-                           known=session.get('known', False), users=users)
+                           known=session.get('known', False), users=users)  # Add 'users=users' here
